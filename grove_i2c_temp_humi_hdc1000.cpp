@@ -88,8 +88,8 @@ uint16_t GroveI2CTempHumiHdc1000::getRawHumi(void){
 bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 {
     double temp = getRawTemp();
-    //*temperature = ((temp/65536.0)*165.0)-40.0;
-    *temperature = temp;
+    *temperature = ((temp/65536.0)*165.0)-40.0;
+    //*temperature = temp;
 
     return true;
 }
@@ -98,8 +98,8 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
 {
     double humi = getRawHumi();
 
-    // *humidity = (humi/65536.0)*100.0;
-    *humidity = humi;
+    *humidity = (humi/65536.0)*100.0;
+    //*humidity = humi;
 
     return true;
 }
