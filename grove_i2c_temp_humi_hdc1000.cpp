@@ -60,7 +60,7 @@ void GroveI2CTempHumiHdc1000::setReadRegister(uint8_t reg){
 
   uint8_t bytes = 2;
   uint16_t dest;
-  
+
   Wire.beginTransmission(_addr);
   Wire.write(reg);
   Wire.endTransmission();
@@ -91,7 +91,7 @@ void GroveI2CTempHumiHdc1000::setReadRegister(uint8_t reg){
 
 bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 {
-    double temp = getRawTemp();
+    double temp = setReadRegister(HDC1000_TEMP);
     *temperature = ((temp/65536.0)*165.0)-40.0;
 
     return true;
@@ -99,7 +99,7 @@ bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 
 bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
 {
-    double humi = getRawHumi();
+    double humi = setReadRegister(HDC1000_HUMI);
 
     *humidity = (humi/65536.0)*100.0;
 
