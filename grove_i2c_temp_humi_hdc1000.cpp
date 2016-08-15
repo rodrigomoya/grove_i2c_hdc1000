@@ -89,7 +89,7 @@ bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 {
 
     Wire.beginTransmission(_addr);
-    Wire.write(reg);
+    Wire.write(HDC1000_TEMP);
     Wire.endTransmission();
 
     delay(30);
@@ -112,7 +112,7 @@ bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
 {
     Wire.beginTransmission(_addr);
-    Wire.write(reg);
+    Wire.write(HDC1000_HUMI);
     Wire.endTransmission();
 
     delay(30);
