@@ -40,7 +40,7 @@ GroveI2CTempHumiHdc1000::GroveI2CTempHumiHdc1000(int pinsda, int pinscl)
 
     Wire.begin();
 
-    uint8_t config = HDC1000_BOTH_TEMP_HUMI|HDC1000_TEMP_HUMI_14BIT|HDC1000_HEAT_ON;
+    uint8_t config = HDC1000_BOTH_TEMP_HUMI|HDC1000_TEMP_HUMI_14BIT|HDC1000_HEAT_OFF;
     setConfig(config);      
 }
 
@@ -89,7 +89,6 @@ bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 {
     double temp = getRawTemp();
     *temperature = ((temp/65536.0)*165.0)-40.0;
-    //*temperature = temp;
 
     return true;
 }
@@ -99,7 +98,6 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
     double humi = getRawHumi();
 
     *humidity = (humi/65536.0)*100.0;
-    //*humidity = humi;
 
     return true;
 }
