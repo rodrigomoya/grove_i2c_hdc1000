@@ -103,7 +103,7 @@ bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
       dest += Wire.read();
     }
 
-    double temp = dest();
+    double temp = dest;
     *temperature = ((temp/65536.0)*165.0)-40.0;
 
     return true;
@@ -126,7 +126,7 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
       dest += Wire.read();
     }
 
-    double humi = dest();
+    double humi = dest;
 
     *humidity = (humi/65536.0)*100.0;
 
