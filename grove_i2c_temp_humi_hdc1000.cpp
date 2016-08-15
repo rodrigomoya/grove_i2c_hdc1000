@@ -40,8 +40,7 @@ GroveI2CTempHumiHdc1000::GroveI2CTempHumiHdc1000(int pinsda, int pinscl)
 
     Wire.begin();
 
-    uint8_t config = HDC1000_BOTH_TEMP_HUMI|HDC1000_TEMP_HUMI_14BIT|HDC1000_HEAT_ON;
-    setConfig(config);      
+     
 }
 
 void GroveI2CTempHumiHdc1000::setConfig(uint8_t config){
@@ -87,6 +86,8 @@ void GroveI2CTempHumiHdc1000::setConfig(uint8_t config){
 
 bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 {
+    uint8_t config = HDC1000_SINGLE_MEASUR|HDC1000_TEMP_HUMI_14BIT|HDC1000_HEAT_ON;
+    setConfig(config); 
 
     Wire.beginTransmission(_addr);
     Wire.write(HDC1000_TEMP);
@@ -111,6 +112,9 @@ bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 
 bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
 {
+    uint8_t config = HDC1000_SINGLE_MEASUR|HDC1000_TEMP_HUMI_14BIT|HDC1000_HEAT_ON;
+    setConfig(config); 
+  
     Wire.beginTransmission(_addr);
     Wire.write(HDC1000_HUMI);
     Wire.endTransmission();
