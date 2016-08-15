@@ -89,7 +89,7 @@ bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 {
     double temp = getRawTemp();
     //*temperature = ((temp/65536.0)*165.0)-40.0;
-    *temperatura=temp;
+    *temperature = temp;
 
     return true;
 }
