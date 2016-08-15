@@ -57,14 +57,15 @@ uint16_t GroveI2CTempHumiHdc1000::read16(){
 }
 
 void GroveI2CTempHumiHdc1000::setReadRegister(uint8_t reg){
+
+  uint8_t bytes = 2;
+  uint16_t dest;
+  
   Wire.beginTransmission(_addr);
   Wire.write(reg);
   Wire.endTransmission();
 
   delay(30);
-
-  uint8_t bytes = 2;
-  uint16_t dest;
 
   Wire.requestFrom(0x41, bytes);
   if(Wire.available()>=bytes){
@@ -75,17 +76,17 @@ void GroveI2CTempHumiHdc1000::setReadRegister(uint8_t reg){
 
 }
 
-uint16_t GroveI2CTempHumiHdc1000::getRawTemp(void){
+// uint16_t GroveI2CTempHumiHdc1000::getRawTemp(void){
   
 
-  return setReadRegister(HDC1000_TEMP);
-}
+//   return setReadRegister(HDC1000_TEMP);
+// }
 
-uint16_t GroveI2CTempHumiHdc1000::getRawHumi(void){
+// uint16_t GroveI2CTempHumiHdc1000::getRawHumi(void){
   
 
-  return setReadRegister(HDC1000_HUMI);
-}
+//   return setReadRegister(HDC1000_HUMI);
+// }
 
 
 bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
