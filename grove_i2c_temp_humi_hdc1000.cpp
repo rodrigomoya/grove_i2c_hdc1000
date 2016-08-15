@@ -139,8 +139,7 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
     }
 
     double humi = dest;
-
-    *humidity = (humi/65536.0)*100.0;
+    *humidity = ((humi/65536.0)*100.0)-20;
 
     return true;
 }
