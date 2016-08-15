@@ -36,12 +36,7 @@ GroveI2CTempHumiHdc1000::GroveI2CTempHumiHdc1000(int pinsda, int pinscl)
 {
     this->i2c = (I2C_T *)malloc(sizeof(I2C_T));
     suli_i2c_init(i2c, pinsda, pinscl);
-    
     _addr = HDC1000_ADDR;
-    _drdyn_pin = -1;
-    
-    if(_drdyn_pin > -1) pinMode(_drdyn_pin, INPUT);
-
 
     Wire.begin();
 
@@ -74,8 +69,7 @@ void GroveI2CTempHumiHdc1000::setReadRegister(uint8_t reg){
   Wire.write(reg);
   Wire.endTransmission();
 
-  if(_drdyn_pin > -1) while(digitalRead(_drdyn_pin)==HIGH); //using DRDYn pin
-  else delay(20); //using 20ms delay instead
+  delay(20);
 }
 
 uint16_t GroveI2CTempHumiHdc1000::getRawTemp(void){
@@ -85,7 +79,7 @@ uint16_t GroveI2CTempHumiHdc1000::getRawTemp(void){
 }
 
 uint16_t GroveI2CTempHumiHdc1000::getRawHumi(void){
-  setReadRegister(HDC1000_HUMI);
+  setReadRegister(HDC1000_TEMP);
 
   return read16();
 }
