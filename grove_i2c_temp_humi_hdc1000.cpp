@@ -27,7 +27,10 @@
  */
 
 #include "suli2.h"
-#include "grove_i2c_temp_humi_hdc1000.h"
+#include "grove_i2c_temp_humi_hdc1000.h" 
+
+
+/*comment*/
 
 GroveI2CTempHumiHdc1000::GroveI2CTempHumiHdc1000(int pinsda, int pinscl)
 {
