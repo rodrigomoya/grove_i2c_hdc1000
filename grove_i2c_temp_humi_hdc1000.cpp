@@ -69,7 +69,7 @@ void GroveI2CTempHumiHdc1000::setReadRegister(uint8_t reg){
   Wire.write(reg);
   Wire.endTransmission();
 
-  delay(20);
+  delay(30);
 }
 
 uint16_t GroveI2CTempHumiHdc1000::getRawTemp(void){
@@ -79,7 +79,7 @@ uint16_t GroveI2CTempHumiHdc1000::getRawTemp(void){
 }
 
 uint16_t GroveI2CTempHumiHdc1000::getRawHumi(void){
-  setReadRegister(HDC1000_TEMP);
+  setReadRegister(HDC1000_HUMI);
 
   return read16();
 }
