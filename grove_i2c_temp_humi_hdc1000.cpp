@@ -100,22 +100,22 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
 
     if (humi >= 20 && humi <= 30) {      
       // - 1
-      humi = humi - 1.0
+      humi = humi - 1.0;
     } else if (humi >= 31 && humi <= 40) {      
       // - 5
-      humi = humi - 5.0
+      humi = humi - 5.0;
     } else if (humi >= 41 && humi <= 50) {      
       // - 10    
-      humi = humi - 10.0
+      humi = humi - 10.0;
     } else if (humi > 51 && humi < 60) {      
       // - 15 
-      humi = humi - 15.0
+      humi = humi - 15.0;
     } else if (humi > 71 && humi < 80){      
       // - 10
-      humi = humi - 10.0
+      humi = humi - 10.0;
     } else if (humi > 81 && humi < 90){                
       // - 5      
-      humi = humi - 5.0
+      humi = humi - 5.0;
     }
 
     *humidity = humi;
