@@ -96,7 +96,7 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
       dest += Wire.read();
     }
 
-    double humi = ((humi/65536.0)*100.0);
+    double humi = ((dest/65536.0)*100.0);
 
     if ((humi >= 20.0) && (humi <= 30.0)) {      
       // - 1
