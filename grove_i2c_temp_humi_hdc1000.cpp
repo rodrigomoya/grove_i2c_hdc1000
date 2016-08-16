@@ -81,7 +81,7 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
     Wire.write(0x00); //the last 8 bits must be zeroes
     Wire.endTransmission();
 
-    delay(30);
+    delay(15);
 
     Wire.beginTransmission(_addr);
     Wire.write(HDC1000_HUMI);
@@ -96,26 +96,27 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
       dest += Wire.read();
     }
 
-    double humi = ((dest/65536.0)*100.0);
+    double humi = dest;
+    humi = ((humi/65536.0)*100.0);
 
     if ((humi >= 20.0) && (humi <= 30.0)) {      
       // - 1
-      humi = humi - 1.0;
+      humi -= 1.0;
     } else if ((humi >= 31.0) && (humi <= 40.0)) {      
       // - 5
-      humi = humi - 5.0;
+      humi -= 5.0;
     } else if ((humi >= 41.0) && (humi <= 50.0)) {      
       // - 10    
-      humi = humi - 10.0;
+      humi -= 10.0;
     } else if ((humi > 51.0) && (humi < 60.0)) {      
       // - 15 
-      humi = humi - 15.0;
+      humi -= 15.0;
     } else if ((humi > 71.0) && (humi < 80.0)){      
       // - 10
-      humi = humi - 10.0;
+      humi -= 10.0;
     } else if ((humi > 81.0) && (humi < 90.0)){                
       // - 5      
-      humi = humi - 5.0;
+      humi -= 5.0;
     }
 
     *humidity = humi;
