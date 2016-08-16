@@ -39,50 +39,7 @@ GroveI2CTempHumiHdc1000::GroveI2CTempHumiHdc1000(int pinsda, int pinscl)
     _addr = HDC1000_ADDR;
 
     Wire.begin();
-
-     
 }
-
-void GroveI2CTempHumiHdc1000::setConfig(uint8_t config){
-  Wire.beginTransmission(_addr);
-  Wire.write(HDC1000_CONFIG); //accessing the configuration register
-  Wire.write(config); //sending the config bits (MSB)
-  Wire.write(0x00); //the last 8 bits must be zeroes
-  Wire.endTransmission();
-}
-
-// uint16_t GroveI2CTempHumiHdc1000::read16(){
-//   uint8_t bytes = 2;
-//   uint16_t dest;
-
-//   Wire.requestFrom(_addr, bytes);
-//   if(Wire.available()>=bytes){
-//     dest = Wire.read()<<8;
-//     dest += Wire.read();
-//   }
-//   return dest;
-// }
-
-// void GroveI2CTempHumiHdc1000::setReadRegister(uint8_t reg){
-//   Wire.beginTransmission(_addr);
-//   Wire.write(reg);
-//   Wire.endTransmission();
-
-//   delay(30);
-// }
-
-// uint16_t GroveI2CTempHumiHdc1000::getRawTemp(void){
-//   setReadRegister(HDC1000_TEMP);
-
-//   return read16();
-// }
-
-// uint16_t GroveI2CTempHumiHdc1000::getRawHumi(void){
-//   setReadRegister(HDC1000_HUMI);
-
-//   return read16();
-// }
-
 
 bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 {
@@ -137,6 +94,27 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
       dest = Wire.read()<<8;
       dest += Wire.read();
     }
+
+    // RECONFIG
+
+    // reset, heat up, and select 14 bit temp & humidity
+    uint16_t newConfig =  HDC1000_CONFIG_RST | HDC1000_CONFIG_HEAT | HDC1000_CONFIG_MODE | HDC1000_CONFIG_TRES_14 | HDC1000_CONFIG_HRES_14;
+
+    Wire.beginTransmission(_addr);
+    Wire.write(newConfig);
+    Wire.endTransmission();
+
+    delay(15);
+
+    // take 1000 readings & toss
+    for ( int i = 0; i < 1000; i++)  {
+      Wire.beginTransmission(_addr);
+      Wire.write(HDC1000_HUMI);
+      Wire.endTransmission();
+      delay(1);
+    }
+    
+    delay(15);    
 
     double humi = dest;
     *humidity = (((humi-(humi*0.2))/65536.0)*100.0);

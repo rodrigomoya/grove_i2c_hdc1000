@@ -64,6 +64,12 @@
 #define HDC1000_HUMI_11BIT          0x01
 #define HDC1000_HUMI_8BIT           0x02
 
+#define HDC1000_CONFIG_RST    (1 << 15)
+#define HDC1000_CONFIG_HEAT   (1 << 13)
+#define HDC1000_CONFIG_MODE   (1 << 12)
+#define HDC1000_CONFIG_TRES_14  0
+ 
+
 // MARCA!
 
 class GroveI2CTempHumiHdc1000
