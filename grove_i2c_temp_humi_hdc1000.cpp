@@ -75,6 +75,7 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
 {
     uint8_t config = HDC1000_SINGLE_MEASUR|HDC1000_TEMP_11BIT|HDC1000_HEAT_ON;
     float offset;
+    float humi_t;
 
     Wire.beginTransmission(_addr);
     Wire.write(HDC1000_CONFIG); //accessing the configuration register
