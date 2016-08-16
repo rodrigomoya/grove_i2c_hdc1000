@@ -67,8 +67,9 @@
 #define HDC1000_CONFIG_RST    (1 << 15)
 #define HDC1000_CONFIG_HEAT   (1 << 13)
 #define HDC1000_CONFIG_MODE   (1 << 12)
+#define HDC1000_CONFIG_TRES_14  0
 #define HDC1000_CONFIG_HRES_14  0
- 
+
 
 // MARCA!
 
