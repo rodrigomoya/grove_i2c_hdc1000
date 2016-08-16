@@ -73,19 +73,20 @@ bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 
 bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
 {
-    // Configuracion 
-    uint8_t config = HDC1000_SINGLE_MEASUR|HDC1000_HUMI_11BIT|HDC1000_HEAT_ON;
+    uint8_t config = HDC1000_SINGLE_MEASUR|HDC1000_TEMP_11BIT|HDC1000_HEAT_ON;
+    float offset;
+
     Wire.beginTransmission(_addr);
     Wire.write(HDC1000_CONFIG); //accessing the configuration register
     Wire.write(config); //sending the config bits (MSB)
     Wire.write(0x00); //the last 8 bits must be zeroes
     Wire.endTransmission();
 
-    delay(15);
-
     Wire.beginTransmission(_addr);
     Wire.write(HDC1000_HUMI);
     Wire.endTransmission();
+
+    delay(30);
 
     uint8_t bytes = 2;
     uint16_t dest;
@@ -97,29 +98,31 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
     }
 
     double humi = dest;
-    humi = ((humi/65536.0)*100.0);
+    humi_t = ((humi/65536.0)*100.0);
 
-    if ((humi >= 20.0) && (humi <= 30.0)) {      
+    if ((humi_t >= 20.0) && (humi_t <= 30.0)) {      
       // - 1
-      humi -= 1.0;
-    } else if ((humi >= 31.0) && (humi <= 40.0)) {      
+      offset = 1.0;
+    } else if ((humi_t >= 31.0) && (humi_t <= 40.0)) {      
       // - 5
-      humi -= 5.0;
-    } else if ((humi >= 41.0) && (humi <= 50.0)) {      
+      offset = 5.0;
+    } else if ((humi_t >= 41.0) && (humi_t <= 50.0)) {      
       // - 10    
-      humi -= 10.0;
-    } else if ((humi > 51.0) && (humi < 60.0)) {      
+      offset = 10.0;
+    } else if ((humi_t >= 51.0) && (humi_t <= 60.0)) {      
       // - 15 
-      humi -= 15.0;
-    } else if ((humi > 71.0) && (humi < 80.0)){      
+      offset = 15.0;
+    } else if ((humi_t >= 71.0) && (humi_t <= 80.0)){      
       // - 10
-      humi -= 10.0;
-    } else if ((humi > 81.0) && (humi < 90.0)){                
+      offset = 10.0;
+    } else if ((humi_t >= 81.0) && (humi_t <= 90.0)){                
       // - 5      
-      humi -= 5.0;
+      offset = 5.0;
+    } else {
+      offset = 0.0;
     }
 
-    *humidity = humi;
+    *humidity = ((humi/65536.0)*100.0)-offset;
 
     return true;
 }
