@@ -102,26 +102,19 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
     humi_t = ((humi/65536.0)*100.0);
 
     if ((humi_t >= 20.00) && (humi_t <= 30.00)) {      
-      // - 1
-      offset = 1.00;
+      offset = 2.50;
     } else if ((humi_t >= 31.00) && (humi_t <= 40.00)) {      
-      // - 5
       offset = 5.00;
     } else if ((humi_t >= 41.00) && (humi_t <= 50.00)) {      
-      // - 10    
-      offset = 10.00;
+      offset = 7.50;
     } else if ((humi_t >= 51.00) && (humi_t <= 60.00)) {      
-      // - 15 
       offset = 12.50;
     } else if ((humi_t >= 61.00) && (humi_t <= 70.00)) {      
-      // - 15       
-      offset = 15.00;
+      offset = 17.50;
     } else if ((humi_t >= 71.00) && (humi_t <= 80.00)){      
-      // - 10
-      offset = 10.00;
+      offset = 12.50;
     } else if ((humi_t >= 81.00) && (humi_t <= 90.00)){                
-      // - 5      
-      offset = 5.00;
+      offset = 7.50;
     } else {
       offset = 0.00;
     }
