@@ -73,22 +73,7 @@ bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 
 bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
 {
-    // DrySensor
-    uint16_t newConfig =  HDC1000_CONFIG_RST | HDC1000_CONFIG_HEAT | HDC1000_CONFIG_MODE | HDC1000_CONFIG_TRES_14 | HDC1000_CONFIG_HRES_14;
-
-    Wire.beginTransmission(_addr);
-    Wire.write(newConfig);
-    Wire.endTransmission();
-    delay(15);
-
-    // take 1000 readings & toss
-    for ( int i = 0; i < 1000; i++)  {
-      Wire.beginTransmission(_addr);
-      Wire.write(HDC1000_HUMI);
-      Wire.endTransmission();
-      delay(1);
-    }
-    delay(15);    
+ 
 
     // Configuracion 
     uint8_t config = HDC1000_SINGLE_MEASUR|HDC1000_HUMI_11BIT|HDC1000_HEAT_ON;
@@ -113,6 +98,24 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
       dest = Wire.read()<<8;
       dest += Wire.read();
     }
+
+
+    // DrySensor
+    uint16_t newConfig =  HDC1000_CONFIG_RST | HDC1000_CONFIG_HEAT | HDC1000_CONFIG_MODE | HDC1000_CONFIG_TRES_14 | HDC1000_CONFIG_HRES_14;
+
+    Wire.beginTransmission(_addr);
+    Wire.write(newConfig);
+    Wire.endTransmission();
+    delay(15);
+
+    // take 1000 readings & toss
+    for ( int i = 0; i < 1000; i++)  {
+      Wire.beginTransmission(_addr);
+      Wire.write(HDC1000_HUMI);
+      Wire.endTransmission();
+      delay(1);
+    }
+    delay(15);   
 
     double humi = dest;
     *humidity = ((humi/65536.0)*100.0);
