@@ -73,8 +73,6 @@ bool GroveI2CTempHumiHdc1000::read_temperature(float *temperature)
 
 bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
 {
- 
-
     // Configuracion 
     uint8_t config = HDC1000_SINGLE_MEASUR|HDC1000_HUMI_11BIT|HDC1000_HEAT_ON;
     Wire.beginTransmission(_addr);
@@ -83,9 +81,8 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
     Wire.write(0x00); //the last 8 bits must be zeroes
     Wire.endTransmission();
 
-    delay(15);
+    delay(30);
 
-    // Medicion 
     Wire.beginTransmission(_addr);
     Wire.write(HDC1000_HUMI);
     Wire.endTransmission();
@@ -99,26 +96,29 @@ bool GroveI2CTempHumiHdc1000::read_humidity(float *humidity)
       dest += Wire.read();
     }
 
+    double humi = ((humi/65536.0)*100.0);
 
-    // DrySensor
-    uint16_t newConfig =  HDC1000_CONFIG_RST | HDC1000_CONFIG_HEAT | HDC1000_CONFIG_MODE | HDC1000_CONFIG_TRES_14 | HDC1000_CONFIG_HRES_14;
-
-    Wire.beginTransmission(_addr);
-    Wire.write(newConfig);
-    Wire.endTransmission();
-    delay(15);
-
-    // take 1000 readings & toss
-    for ( int i = 0; i < 1000; i++)  {
-      Wire.beginTransmission(_addr);
-      Wire.write(HDC1000_HUMI);
-      Wire.endTransmission();
-      delay(1);
+    if (humi >= 20 && humi <= 30) {      
+      // - 1
+      humi = humi - 1.0
+    } else if (humi >= 31 && humi <= 40) {      
+      // - 5
+      humi = humi - 5.0
+    } else if (humi >= 41 && humi <= 50) {      
+      // - 10    
+      humi = humi - 10.0
+    } else if (humi > 51 && humi < 60) {      
+      // - 15 
+      humi = humi - 15.0
+    } else if (humi > 71 && humi < 80){      
+      // - 10
+      humi = humi - 10.0
+    } else if (humi > 81 && humi < 90){                
+      // - 5      
+      humi = humi - 5.0
     }
-    delay(15);   
 
-    double humi = dest;
-    *humidity = ((humi/65536.0)*100.0);
+    *humidity = humi;
 
     return true;
 }
